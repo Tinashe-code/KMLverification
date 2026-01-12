@@ -1,0 +1,16 @@
+# render.yaml
+services:
+  - type: web
+    name: kml-pole-processor
+    env: python
+    region: oregon  # or any region near you
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1

@@ -114,7 +114,7 @@ def process_kml_file(kml_content: str) -> Dict[str, Any]:
 @app.get("/", response_class=HTMLResponse)
 async def get_upload_page():
     """Serve the HTML upload page."""
-    with open("templates/index.html", "r") as f:
+    with open("index.html", "r") as f:
         html_content = f.read()
     return HTMLResponse(content=html_content)
 

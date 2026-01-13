@@ -16,6 +16,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOADS_DIR = os.path.join(BASE_DIR, "uploads")
 PROCESSED_DIR = os.path.join(BASE_DIR, "processed")
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+DOCS_DIR = os.path.join(BASE_DIR, "docs")
 
 # Create directories if they don't exist
 os.makedirs(UPLOADS_DIR, exist_ok=True)
@@ -133,26 +134,85 @@ def process_kml_file(kml_content: str) -> Dict[str, Any]:
     
     return df, result
 
+# @app.get("/", response_class=HTMLResponse)
+# async def get_upload_page():
+#     """Serve the HTML upload page."""
+#     # Try multiple locations for index.html
+#     possible_paths = [
+#         os.path.join(TEMPLATES_DIR, "index.html"),  # backend/templates/index.html
+#         os.path.join(BASE_DIR, "index.html"),       # backend/index.html
+#         os.path(DOCS_DIR, "index.html"),       # backend/docs/index.html
+#         "index.html"                                 # Current directory
+#     ]
+    
+#     html_content = "<h1>KML Pole Number Extractor API is running</h1><p>Use the frontend at <a href='https://tinashe-code.github.io/KMLverification/'>GitHub Pages</a></p>"
+    
+#     for path in possible_paths:
+#         if os.path.exists(path):
+#             try:
+#                 with open(path, "r") as f:
+#                     html_content = f.read()
+#                 break
+#             except Exception:
+#                 continue
+    
+#     return HTMLResponse(content=html_content)
+
 @app.get("/", response_class=HTMLResponse)
 async def get_upload_page():
-    """Serve the HTML upload page."""
-    # Try multiple locations for index.html
-    possible_paths = [
-        os.path.join(TEMPLATES_DIR, "index.html"),  # backend/templates/index.html
-        os.path.join(BASE_DIR, "index.html"),       # backend/index.html
-        "index.html"                                 # Current directory
-    ]
-    
-    html_content = "<h1>KML Pole Number Extractor API is running</h1><p>Use the frontend at <a href='https://tinashe-code.github.io/KMLverification/'>GitHub Pages</a></p>"
-    
-    for path in possible_paths:
-        if os.path.exists(path):
-            try:
-                with open(path, "r") as f:
-                    html_content = f.read()
-                break
-            except Exception:
-                continue
+    """Serve a simple API info page."""
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>KML Pole Number Extractor API</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+            .container { max-width: 800px; margin: 0 auto; }
+            h1 { color: #333; }
+            .card { background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0; }
+            .endpoint { background: #e8f4f8; padding: 10px; margin: 10px 0; border-left: 4px solid #2196F3; }
+            code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+            a { color: #2196F3; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>📊 KML Pole Number Extractor API</h1>
+            <p>This is the backend API for processing KML files and extracting pole numbers.</p>
+            
+            <div class="card">
+                <h2>API Endpoints:</h2>
+                <div class="endpoint">
+                    <strong>GET /health</strong> - Health check endpoint
+                </div>
+                <div class="endpoint">
+                    <strong>POST /upload-kml/</strong> - Upload and process KML file
+                </div>
+                <div class="endpoint">
+                    <strong>GET /download-csv/{filename}</strong> - Download processed CSV
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Frontend:</h2>
+                <p>Use the frontend application at:</p>
+                <p><a href="https://tinashe-code.github.io/KMLverification/" target="_blank">
+                    https://tinashe-code.github.io/KMLverification/
+                </a></p>
+            </div>
+            
+            <div class="card">
+                <h2>Status:</h2>
+                <p>✅ API is running and ready to process requests.</p>
+                <p>📁 Uploads directory: <code>backend/uploads/</code></p>
+                <p>📁 Processed directory: <code>backend/processed/</code></p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
     
     return HTMLResponse(content=html_content)
 

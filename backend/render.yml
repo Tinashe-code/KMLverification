@@ -1,12 +1,27 @@
 # render.yaml
+# services:
+#   - type: web
+#     name: kml-pole-processor
+#     env: python
+#     region: oregon
+#     plan: free
+#     buildCommand: cd backend && pip install -r requirements.txt
+#     startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+#     envVars:
+#       - key: PYTHON_VERSION
+#         value: 3.11.9
+
+
+# render.yaml (in root directory)
 services:
   - type: web
     name: kml-pole-processor
     env: python
     region: oregon
     plan: free
-    buildCommand: cd backend && pip install -r requirements.txt
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
+    rootDirectory: backend
+    pythonVersion: "3.11.9"  # <-- Use this instead of envVars!
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
